@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: 'Users',
+  name: 'users',
   initialState,
   reducers: {
     addNewUser: (state, action) => {
@@ -16,7 +16,7 @@ const userSlice = createSlice({
 
     deleteUser: (state, action) => {
       const filtredUser = state.users.filter(
-        user => user.id === action.payload.id,
+        user => user.id !== action.payload.id,
       );
       state.users = filtredUser;
       Alert.alert('Successfully deleted', 'User deleted successfully');
@@ -24,7 +24,7 @@ const userSlice = createSlice({
 
     updateUser: (state, action) => {
       const updatedUser = state.users.map(user =>
-        user.id === action.payload.id ? {...user, ...action.payload} : user,
+        user?.id === action.payload.id ? {...user, ...action.payload} : user,
       );
 
       state.users = updatedUser;

@@ -18,9 +18,10 @@ const UserDetailScreen = ({route}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {user} = route.params;
+  console.log('user========>', user);
 
   const handleDelete = () => {
-    dispatch(deleteUser(user.id));
+    dispatch(deleteUser({id: user.id}));
     navigation.navigate(USERS);
   };
   return (
@@ -58,7 +59,7 @@ const UserDetailScreen = ({route}) => {
         <View style={{marginTop: 40}}>
           <Button
             title={'Update User'}
-            onPress={() => navigation.navigate(UPDATEUSER)}
+            onPress={() => navigation.navigate(UPDATEUSER, {user: user})}
           />
           <Button
             title={'Delete User'}

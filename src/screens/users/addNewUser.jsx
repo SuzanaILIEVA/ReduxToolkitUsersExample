@@ -9,8 +9,11 @@ import {useDispatch} from 'react-redux';
 import {addNewUser} from '../../store/slice/userSlice';
 import CheckBox from 'react-native-check-box';
 import themeColors from '../../theme/themeColors';
+import {useNavigation} from '@react-navigation/native';
+import {USERS} from '../../utils/route';
 
 const AddNewUserScreen = () => {
+  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   return (
@@ -18,15 +21,18 @@ const AddNewUserScreen = () => {
       <Formik
         initialValues={{
           id: Date.now(),
-          name: 'Suzi',
-          surname: 'Suzi',
-          email: 'Suzi@gmail.com',
-          phoneNumber: '777111555777',
+          name: '',
+          surname: '',
+          email: '',
+          phoneNumber: '',
           gender: '',
-          age: '37',
+          age: '',
         }}
         validationSchema={newUserSchema}
-        onSubmit={values => dispatch(addNewUser(values))}>
+        onSubmit={values => {
+          dispatch(addNewUser(values));
+          navigation.navigate(USERS);
+        }}>
         {({
           handleChange,
           handleSubmit,

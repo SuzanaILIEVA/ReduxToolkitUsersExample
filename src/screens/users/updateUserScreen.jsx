@@ -9,27 +9,38 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateUser} from '../../store/slice/userSlice';
 import CheckBox from 'react-native-check-box';
 import themeColors from '../../theme/themeColors';
+import {useNavigation} from '@react-navigation/native';
+import {USERDETAIL, USERS} from '../../utils/route';
 
-const UpdateUserScreen = () => {
+const UpdateUserScreen = ({route}) => {
+  const {user} = route.params;
+  console.log('UpdateUserScreen USER==> ', user);
+
   const {users} = useSelector(state => state.users);
   console.log(users);
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
 
   return (
     <View style={defaultScreenStyle.container}>
       <Formik
+        enableReinitialize={true} // Formik'in her render sırasında değerleri yeniden başlatmasını sağlar
         initialValues={{
-          id: users.id,
-          name: users.name,
-          surname: users.surname,
-          email: users.email,
-          phoneNumber: users.phoneNumber,
-          gender: users.gender,
-          age: users.age,
+          id: user?.id || '',
+          name: user?.name || '',
+          surname: user?.surname || '',
+          email: user?.email || '',
+          phoneNumber: user?.phoneNumber || '',
+          gender: user?.gender || '',
+          age: user?.age || '',
         }}
         validationSchema={newUserSchema}
-        onSubmit={values => dispatch(updateUser(values))}>
+        onSubmit={values => {
+          console.log('VALUESSSSS = > ', values);
+          dispatch(updateUser(values));
+          navigation.navigate(USERS);
+        }}>
         {({
           handleChange,
           handleSubmit,
